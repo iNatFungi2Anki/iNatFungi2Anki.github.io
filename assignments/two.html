@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Style the content */
+.content {
+  width: 75%;
+  background-color: #C8A2C8;
+  padding: 20px;
+  
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-style: solid;
+  border-color: white;
+  border-width: thick;
+  
+}
+
+.center {
+  text-align: center;
+}
+
+
+</style>
+</head>
+<body background="../assests/stars.gif">
+
+<div class="topnav">
+  <a href="../index.html">HOME</a>
+  <a href="../assignments.html">ASSIGNMENTS</a>
+  <a href="../finalproject.html">FINAL PROJECT</a>
+</div>
+
+<div class="content">
+    <p>1)</p>
+    <img src="../assests/text1_post.png"/>
+    <hr>
+    <p>2)</p>
+    <img src="../assests/t2_post.png"/>
+    <p>Threshold: 193 - 255</p> 
+    <p>Channel: Value</p> 
+    <hr>
+    <p>3)</p>
+    <img src="../assests/t3_post.png"/>
+    <p>Threshold: 56 - 255</p> 
+    <p>Channel: RGB</p> 
+    <hr>
+    <p>4)</p>
+    <img width="50%" src="../assests/barbotan_post.jpg"/>
+    <p>There is not necessarily a ‘best’ threshold value. This value I have chosen is a balance between background noise and clearness of the text. Increasing the threshold adds background noise but makes text clearer and vice versa. The balance between the two I settled on was something I determined using my personal preference and best judgment.</p>
+    <hr>
+    <p>5)</p>
+    <img src="../assests/lines_post.png"/>
+    <p> A) the black rectangle boundary is detected and outlined with a white border <br>
+B) the grey rectangle boundary is detected and outlined with a white border <br>
+C) the the lines forming the x are outline with a a white border however the edges at the cross section where the two lines overlap are not detected since the lines are the same colour. <br>
+    </p>
+    <hr>
+    <p>6)</p>
+    <img src="../assests/towera_noise_reduction_1.png"/>
+    <p>
+        <b>Noise Reduction Method A: GEGL filter</b> <br>
+        - This method applies a simple GEGL filter to reduce noise. <br>
+        - The noise is significantly reduced but still a tiny bit visible (hard to tell without zooming in significantly). <br>
+        - Consequently, the image becomes blurrier. <br>
+    </p>
+    <img src="../assests/towera_noise_reduction_2.png"/>
+    <p>
+        <b>Noise Reduction Method B: Despeckle filter</b> <br>
+        - This method applies a ‘despeckle’ filter to reduce noise <br>
+        - 100% of the noise is removed. <br>
+        - Consequently, the image becomes ‘softer’. <br>
+    </p>
+
+    <p>
+
+        <b>Comparison of the two reduction techniques:</b> <br>
+        - It might seem Method B is objectively better than Method A because it reduces 100% of the noise. <br>
+        - However, Method A can also do this if set very high. The problem is if Method A is set very high then it becomes way blurrier than Method B. <br>
+        - Despite this, Method A preserves more details in the image when set to a moderate value that removes 'most' of the noise. <br>
+        - For example, the buildings in the background below the tower are easier to make out in Method A. <br>
+        - Therefore, Method A could be seen as the best compromise between reducing background noise and preserving details in the image. <br>
+
+
+
+        
+        
+        
+    </p>
+
+
+
+</div>
+
+
+</body>
+</html>

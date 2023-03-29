@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Style the content */
+.content {
+  width: 75%;
+  background-color: #C8A2C8;
+  padding: 20px;
+  
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border-style: solid;
+  border-color: white;
+  border-width: thick;
+  
+}
+
+.center {
+  text-align: center;
+}
+
+.tab { margin-left: 20px; }
+</style>
+</head>
+<body background="../assests/stars.gif">
+
+<div class="topnav">
+  <a href="../index.html">HOME</a>
+  <a href="../assignments.html">ASSIGNMENTS</a>
+  <a href="../finalproject.html">FINAL PROJECT</a>
+</div>
+
+<div class="content">
+    <div class="center">
+        <h1> Manifesting The Collective Unconscious </h1>
+    </div>
+    <hr>
+
+    <h3><u>Inspiration For my Project:</u></h3>
+    <p class="tab">
+        In the aftermath of World War 1, an art movement known as Surrealism came about. Surrealist artists used many techniques in order to free their art from the mediation of rational thought, allowing the unconscious mind to be their source of inspiration. One such technique called "Automatic Drawings" involved the artist letting their hand move "randomly" across a canvas. The resulting artworks mainly consisted of abstract scribbles. However, these scribbles were supposedly expressions of the unconscious mind and were thought to reveal something of the artist's repressed psyche.
+    </p>
+
+    <div class="center">
+        <img src="../assests/automatic_drawing.png" width="300px">
+        <p>An "Automatic Drawing" that I drew. An imprint of my unconscious mind.</p>
+    </div>
+
+    <br>
+    <div class="center">
+    <h3><mark>There are numerous surrealist techniques for expressing one's own unconscious. <br> But what about the collective unconscious?</mark></h3>
+    </div>
+    <br>
+
+    <h3><u>My Project:</u></h3>
+    <p class="tab">
+        - I’d like to create a webpage containing a drawing application. Users will be prompted to draw scribbles unconsciously in the same fashion of "Automatic Drawings”. <br>
+        - After submitting their scribble, the webpage sends the drawing to the backend of my web server containing all user submitted scribbles collected into a dataset. <br>
+        - Using this dataset, two AI data models are trained simultaneously by an adversarial process. One of these model’s will be a “generator” which creates new images of scribbles (see https://www.tensorflow.org/tutorials/generative/dcgan).<br>
+        - This AI training process is repeated automatically and regularly to accommodate a growing dataset. <br>
+        - <mark>Given that user submitted scribbles are “imprints” of individual unconsciouses, the dataset of these scribbles could be regarded as a kind of collective unconscious. The resulting image my “generator” model produces from this dataset would be the visual manifestation of this collective unconscious. </mark> <br>
+        - Users will be able to view an up-to-date image created by my “generator” model on my website. <br>
+    </p>
+
+    <h3><u>Technologies I will use:</u></h3>
+    <p class="tab">
+        - Front-end: Javascript <br> 
+        - Back-end: Python + TensorFlow <br>
+        - Web-server: Digital Ocean Droplet w/ LAMP stack. <br>
+    </p>
+
+
+
+    <div class="center">
+    <h3><a href="../assests/CU_diagram.png">Click Here To View Mock Up Of My Website</a></h3>
+
+    <h3><a href="../assests/CU_uml.png">Click Here To View UML Diagram Of My Project</a></h3>
+    </div>
+    
+
+
+
+   
+
+
+</div>
+
+
+</body>
+</html>

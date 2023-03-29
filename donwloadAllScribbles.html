@@ -1,0 +1,52 @@
+<<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+    </head>
+    <body>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-storage.js"></script>
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyA__YGEjCsHFWzcNzeHiYCdL7D89Y1dp5w",
+                authDomain: "finalproject-f1939.firebaseapp.com",
+                projectId: "finalproject-f1939",
+                storageBucket: "finalproject-f1939.appspot.com",
+                messagingSenderId: "471434258774",
+                appId: "1:471434258774:web:31571e1fa217a9ca640ef7",
+                measurementId: "G-Z9N0P315NS"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            firebase.analytics();
+
+                // Since you mentioned your images are in a folder,
+                // we'll create a Reference to that folder:
+            var storageRef = firebase.storage().ref("scribbles");
+
+
+            // Now we get the references of these images
+            storageRef.listAll().then(function(result) {
+                result.items.forEach(function(imageRef) {
+                    // And finally display them
+                    displayImage(imageRef);
+                });
+            }).catch(function(error) {
+                // Handle any errors
+            });
+
+            function displayImage(imageRef) {
+                imageRef.getDownloadURL().then(function(url) {
+                    console.log(url)
+                }).catch(function(error) {
+                // Handle any errors
+                });
+            }
+        </script>
+    </body>
+</html>
