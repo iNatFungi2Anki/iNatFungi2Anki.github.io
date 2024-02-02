@@ -12,7 +12,6 @@
 
 p {
     padding: 0px 50px 0px 50px; 
-    text-indent: 50px;
     text-align: justify; 
     hyphens: auto; 
     -webkit-hyphens: auto; 
@@ -102,34 +101,42 @@ body {
     <hr>
     
     <h3>Inspiration:</h3>
-    <p > In the aftermath of WW1, Surrealists began developing various techniques in order to create art that draws inspiration from the unconscious; a normally inaccessible region of the mind. One method known as "automatic drawing" involves the artist allowing their hand to "randomly" scribble all over a canvas, freeing their drawing from the control of rational thought. It is said these artworks are imprints of the unconscious mind and reveal something of the artist's repressed psyche. </p>
+    <p > In the aftermath of World War I, Surrealists began developing various techniques in order to create art that draws inspiration from the unconscious; a normally inaccessible region of the mind. One method known as automatic drawing involves the artist allowing their hand to randomly scribble all over a canvas, freeing their drawing from the control of rational thought. It is said these artworks are imprints of the unconscious mind and reveal something of the artist's repressed psyche. </p>
 
     <div class="center">
         <img src="assests/Pierre-Gauvreau-Ink-Drawing.jpg">
         <p style="text-align: center;  text-indent: 0px;">Pierre Gauvreau, Ink Drawing, 1954</p>
     </div>
 
-    <p > Surrealism, for the most part, has been concerned with expressing the unconscious of individuals. What about the shared unconscious permeating throughout human society? Can we use surrealist techniques aided by modern technology to access the collective unconscious? That is the question this project is attempting to answer! </p>
+    <h3>Objective:</h3>
+
+    <p> The idea behind this website is: if we combine the automatic drawings of many individuals, an amalgamation of unconscious thoughts, a visualization of a collective unconscious, what would that look like?</p>
 
     <h3>Implementation:</h3>
 
-    <p > By combining the random scribbles of many individuals (imprints of their unconscious minds) into one “super” scribble, this project hopes to create a visual representation of the collective unconscious. It should be noted that the resulting artwork could alternatively be interpreted as an artificially created collective unconscious, distinct from the autonomously created unconscious observed in the real world. </p> 
+    <p > This project collects the automatic drawings of individuals through an app on this website that allows users to draw and submit their artworks to be used in the training of a generative adversarial network (GAN). </p> 
 
-    <p > This project collects the "automatic drawings" of individuals through an app on this website that allows users to draw and submit scribbles to be used in the training of a generative adversarial network (GAN). </p> 
+    <p > GANs are a class of machine learning in which two neural networks, a generator and a discriminator, are trained simultaneously by an adversarial process. The specific type of GAN used in this project is a DCGAN. During the training of a DCGAN, the generator will create increasingly better images in order to fool the discriminator who attempts to determine which images are real or fake. </p> 
 
-    <p > GANs are a class of machine learning in which two neural networks, a generator and a discriminator, are trained simultaneously by an adversarial process. The specific type of GAN used in this project is a DCGAN. During the training of a DCGAN, the generator will create increasingly better images in order to fool the discriminator who attempts to determine which images are real or fake. The images resulting from this training are assembled into a gif and uploaded to this website.  </p> 
+    <p > The images resulting from this training process are assembled into a gif and uploaded to this website. As the dataset of user submitted automatic drawings grows, the images will be updated periodically. </p> 
 
-    <p > As the dataset of user submitted scribbles grows, the image depicting the collective unconscious will be updated every few days. This is because training takes a significant amount of time on the limited processing power provided by my home computer. </p> 
+    <h3> How to Contribute:</h3>
+
+    <p> Go to the <a href="finalproject_contribute.html">contribute page</a> to draw and submit an automatic drawing. </p> 
+
+    <p> When creating your automatic drawing, allow your cursor to move randomly across the virtual canvas in order to minimize the influence of rational thought as much as possible </p> 
+
+    <p> </p>
+
+
 
     <h3>Citations:</h3>
 
     <p style="text-indent: 0px;">
-        &nbsp&nbsp&nbsp<a href="https://github.com/psyche-hacking/art321FinalProject">Github Repo</a> <br>
         &nbsp&nbsp&nbsp<a href="https://en.wikipedia.org/wiki/Surrealist_automatism">Surrealist Automatism</a> <br>
         &nbsp&nbsp&nbsp<a href="https://arxiv.org/abs/1511.06434">DCGAN Paper</a> <br>
-        &nbsp&nbsp&nbsp<a href="https://github.com/pytorch/tutorials/blob/master/beginner_source/dcgan_faces_tutorial.py">DCGAN Pytorch Tutorial Code</a><br>
         &nbsp&nbsp&nbsp<a href="https://github.com/processing/p5.js/">p5.js (used for drawing app)</a><br>
-        &nbsp&nbsp&nbsp<a href="https://github.com/Zheng222/IMDN">IMDN (used for up scaling output of DCGAN)</a><br>
+        &nbsp&nbsp&nbsp<a href="https://github.com/Zheng222/IMDN">IMDN (used for upscaling output of DCGAN)</a><br>
     </p> 
 
     <h3>Contact:</h3>
