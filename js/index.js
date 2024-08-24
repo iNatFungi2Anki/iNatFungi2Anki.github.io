@@ -87,6 +87,33 @@ function addNote() {
           // Handle error
       }
     };
+
+    // URL of the image to download
+    const imageUrl = 'https://static.inaturalist.org/photos/169510857/original.jpeg';
+
+    // Fetch the image from the foreign URL
+    fetch(imageUrl, { mode: 'no-cors' })
+      .then(response => response.blob())  // Convert the response to a Blob
+      .then(blob => {
+        // Create a temporary object URL from the Blob
+        const tempUrl = URL.createObjectURL(blob);
+        
+        // Print the temporary file location (URL)
+        console.log('Temporary file location:', tempUrl);
+        
+        // Use the image in your web app, for example:
+        const img = document.createElement('img');
+        img.src = tempUrl;
+        document.body.appendChild(img);
+        
+        // Cleanup: Revoke the object URL when it's no longer needed
+        img.onload = () => {
+          URL.revokeObjectURL(tempUrl);  // Release memory once done with the URL
+        };
+      })
+      .catch(error => {
+        console.error('Error downloading the image:', error);
+      });
 }
 
 // add deck to package and export
