@@ -42,6 +42,8 @@ initSqlJs().then(function (sql) {
     SQL = sql;
 });
 
+var mycomatch;
+
 const m = new Model({
     name: "Basic",
     id: "2156341623643",
@@ -64,8 +66,22 @@ const m = new Model({
 const d = new Deck(1347617346765, "New deck")
 const p = new Package()
 
+function start() {
+    if (mycomatch == null) {
+        fetch('./myocmatch.json')
+            .then((response) => response.json())
+            .then((json) => {
+                mycomatch = json
+                addNote();
+            });
+    } else {
+        addNote();
+    }
+}
+
 // add note to deck
 function addNote() {
+    console.log(mycomatch)
     var front = document.getElementById("noteFront").value;
     var back = document.getElementById("noteBack").value;
 
@@ -89,10 +105,10 @@ function addNote() {
     };
 
     // URL of the image to download
-    const imageUrl = 'https://static.inaturalist.org/photos/169510857/original.jpeg';
+    const imageUrl = 'https://corsproxy.io/?https%3A%2F%2Fstatic.inaturalist.org%2Fphotos%2F414907516%2Foriginal.jpeg';
 
     // Fetch the image from the foreign URL
-    fetch(imageUrl, { mode: 'no-cors' })
+    fetch(imageUrl)
       .then(response => response.blob())  // Convert the response to a Blob
       .then(blob => {
         // Create a temporary object URL from the Blob
@@ -107,14 +123,49 @@ function addNote() {
         document.body.appendChild(img);
         
         // Cleanup: Revoke the object URL when it's no longer needed
-        img.onload = () => {
-          URL.revokeObjectURL(tempUrl);  // Release memory once done with the URL
-        };
+        //img.onload = () => {
+        //  URL.revokeObjectURL(tempUrl);  // Release memory once done with the URL
+        //};
+        addImage(blob);
       })
       .catch(error => {
         console.error('Error downloading the image:', error);
       });
 }
+
+function addImage(blob) {
+    const m = new Model({
+        name: "Basic Test",
+        id: "3457826374725",
+        flds: [
+            { name: "Front" },
+            { name: "Back" }
+        ],
+        req: [
+            [0, "all", [0]],
+        ],
+        tmpls: [
+            {
+                name: "Card 1",
+                qfmt: "{{Front}}",
+                afmt: "{{FrontSide}}\n\n<hr id=answer>\n\n{{Back}}",
+            }
+        ],
+    })
+                       
+    const d = new Deck(1347617346765, "hi")
+
+    var imageFile = "test.jpg";
+
+    d.addNote(m.note(['This is front and back side contains image.', '<img src="' + imageFile + '"></img>']))
+
+    const p = new Package()
+    p.addDeck(d)
+
+    p.addMedia(blob, imageFile);
+    p.writeToFile('deck.apkg')
+}
+
 
 // add deck to package and export
 function exportDeck() {
