@@ -66,18 +66,38 @@ const m = new Model({
 const d = new Deck(1347617346765, "New deck")
 const p = new Package()
 
+// function start() {
+//     if (mycomatch == null) {
+//         fetch('./myocmatch.json')
+//             .then((response) => response.json())
+//             .then((json) => {
+//                 mycomatch = json
+//                 addNote();
+//             });
+//     } else {
+//         addNote();
+//     }
+// }
+
 function start() {
-    if (mycomatch == null) {
-        fetch('./myocmatch.json')
-            .then((response) => response.json())
-            .then((json) => {
-                mycomatch = json
-                addNote();
-            });
-    } else {
-        addNote();
-    }
+    getMycoMatchData
+        .then(addNote())
+        .catch((err) => console.log("Error: ", err.message));
 }
+
+let getMycoMatchData = 
+    new Promise((resolve) => {
+        if (mycomatch == null) {
+                fetch('./myocmatch.json')
+                    .then((response) => response.json())
+                    .then((json) => {
+                        mycomatch = json;
+                        resolve(mycomatch);
+            });
+        } else {
+            resolve();
+        }
+    });
 
 // add note to deck
 function addNote() {
