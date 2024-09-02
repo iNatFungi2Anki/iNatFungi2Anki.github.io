@@ -83,9 +83,10 @@ const p = new Package()
 
 function start() {
     let package = new Package(); 
+    let deck = new Deck(generateRandom13DigitNumber(), "Fungi");
     getMycoMatchData()
-        .then(() => createDeck(package))
-        .then((deck) => {
+        .then(() => createCards(package, deck))
+        .then(() => {
             console.log("3");
             package.addDeck(deck);
             package.writeToFile(OUTPUT_FILE);
@@ -108,9 +109,9 @@ function getMycoMatchData() {
     });
 }
 
-function createDeck(package) {
+function createCards(package, deck) {
     return new Promise(async (resolve) => {
-        const deck = new Deck(generateRandom13DigitNumber(), "Fungi");
+        //const deck = new Deck(generateRandom13DigitNumber(), "Fungi");
         //const package = new Package();
         const iNatIDs = convertInputToList(document.getElementById("noteFront").value);
         const model = createModel();
@@ -133,7 +134,7 @@ function createDeck(package) {
         //package.addDeck(deck);
         //package.writeToFile('deck.apkg')
         console.log("2");
-        resolve(deck);
+        resolve();
     });
 }
 
@@ -235,8 +236,13 @@ function createModel() {
       tmpls: [
         {
           name: 'Taxon Card',
-          qfmt: '{{photos}}<br><br><p style="display:inline">Rank: </p>{{rank}}<br>{{type:scientificName}}',
-          afmt: `{{photos}}<br><br>
+          qfmt: `<div align="left" style="font-size: 16px;">
+          {{photos}}<br><br>
+          <p style="display:inline">Rank: </p>{{rank}}<br>
+          {{type:scientificName}}
+          </div>`,
+          afmt: `<div align="left" style="font-size: 16px;">
+          {{photos}}<br><br>
           {{type:scientificName}}<br><br>
           <div style="font-size: 30px;"><i>{{scientificName}}</i></div><br><br>
           <b><p style="display:inline">Common Name: </p></b>{{commonName}}<br><br>
@@ -248,7 +254,7 @@ function createModel() {
           <br><br><b><p style="display:inline">Edibility: </p></b>{{edibility}}
           <br><br><b><p style="display:inline">Taste: </p></b>{{taste}}
           <br><br><b><p style="display:inline">Habitat: </p></b>{{habitat}}
-           `,
+          </div>`,
         },
       ]
     })
