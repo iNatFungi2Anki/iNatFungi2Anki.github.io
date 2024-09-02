@@ -1,49 +1,118 @@
-<meta charset="utf8" />
 <html>
 
-<!-- sqlite -->
-<script src='js/sql/sql.js'></script>
-
-<!-- anki -->
-<script src="js/anki/genanki.js"></script>
-
-<!-- zip .apkg -->
-<script src="js/jszip.min.js"></script>
-
-<!-- File saver -->
-<script src="js/filesaver/FileSaver.min.js"></script>
-
-<script src='js/index.js'></script>
+<head>
+  <title>iNatFungi2Anki</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/fontawesome.min.css" rel="stylesheet">
+  <link href="css/brands.min.css" rel="stylesheet">
+  <link href="css/solid.min.css" rel="stylesheet">
+  <link href="css/v4-font-face.min.css" rel="stylesheet">
+  <link href="css/base.css" rel="stylesheet">
+  <link id="hljs-light" rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/rainbow.min.css">
+  <link id="hljs-dark" rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+  <link href="css/extra.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
 
 <body>
 
-  <div>
-    Add notes and export decks
-  </div>
+  <!-- sqlite -->
+  <script src='js/sql/sql.js'></script>
 
-  <br>
+  <!-- anki -->
+  <script src="js/anki/genanki.js"></script>
 
-  <!-- Front Back -->
-  <div id="add-note">
-    <div>Front
-      <hr class="thin">
-      <textarea id="noteFront" type="text" placeholder="Front..." required
-        style="margin: 0px;width: 400px;height: 100px;"></textarea>
+  <!-- zip .apkg -->
+  <script src="js/jszip.min.js"></script>
+
+  <!-- File saver -->
+  <script src="js/filesaver/FileSaver.min.js"></script>
+
+  <script src='js/index.js'></script>
+
+  <body class="bg-dark text-light">
+    <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href=".">iNatFungi2Anki</a>
+
+        <!-- Expanded navigation -->
+        <!-- <div id="navbar-collapse" class="navbar-collapse collapse"> -->
+        <!-- Main navigation -->
+        <ul class="nav navbar-nav mr-auto">
+          <li class="nav-item">
+            <a href="#" id="home-link" class="nav-link active" aria-current="page">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" id="about-link" class="nav-link">About</a>
+          </li>
+        </ul>
+
+        <!-- </div> -->
+      </div>
     </div>
 
-    <div>Back
-      <hr class="thin">
-      <textarea id="noteBack" type="text" placeholder="Back..." required
-        style="margin: 0px;width: 400px;height: 100px;"></textarea>
+    <div class="container" style="color: aliceblue;">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-9" id="main">
+            <div id="home-content">
+              <h3><strong>iNatFungi2Anki 🍄 </strong></h3>
+              <div>
+              This tool takes your iNaturalist observations of fungi and turns them into Anki flashcards <br>
+              </div>
+              <br>
+              <div id="add-note">
+                <div>
+                  <div style="color: yellow;">Input one URL per line:</div>
+                  <textarea id="noteFront" type="text" placeholder="(e.g. https://www.inaturalist.org/observations/230398888)" required
+                    style="margin: 0px;width: 800px;height: 100px;"></textarea>
+                </div>
+              </div>
+
+              <br>
+
+              <div>
+                <button id="startButton" onclick="start();">Start</button>
+              </div> 
+              <br>
+              <div class="loader" id="loader" style="display:none;"></div> <br>
+              <div id="output" style="font-family: 'Courier New'; color:rgb(10, 225, 78)"></div>
+            </div>
+
+            <div id="about-content" style="display:none;">
+              <h1>About iNatFungi2Anki</h1>
+              <p>This application helps you convert iNaturalist fungi observations into Anki cards.</p>
+              <!-- Add more about information here -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <br>
+    <script>
+      // JavaScript to handle navigation
+      document.getElementById('home-link').addEventListener('click', function () {
+        document.getElementById('home-content').style.display = 'block';
+        document.getElementById('about-content').style.display = 'none';
+        this.classList.add('active');
+        document.getElementById('about-link').classList.remove('active');
+      });
+  
+      document.getElementById('about-link').addEventListener('click', function () {
+        document.getElementById('home-content').style.display = 'none';
+        document.getElementById('about-content').style.display = 'block';
+        this.classList.add('active');
+        document.getElementById('home-link').classList.remove('active');
+      });
+    </script>
 
-  <div>
-    <button onclick="start();">Add</button>
-    <button onclick="exportDeck();">Export</button>
-  </div>
-</body>
+  </body>
 
 </html>

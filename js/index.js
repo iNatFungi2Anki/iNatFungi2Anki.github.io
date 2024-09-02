@@ -68,20 +68,9 @@ const m = new Model({
 const d = new Deck(1347617346765, "New deck")
 const p = new Package()
 
-// function start() {
-//     if (mycomatch == null) {
-//         fetch('./myocmatch.json')
-//             .then((response) => response.json())
-//             .then((json) => {
-//                 mycomatch = json
-//                 addNote();
-//             });
-//     } else {
-//         addNote();
-//     }
-// }
-
 function start() {
+    disableButton();
+    document.getElementById("output").innerHTML = "";
     let package = new Package(); 
     let deck = new Deck(generateRandom13DigitNumber(), "Fungi");
     getMycoMatchData()
@@ -90,6 +79,8 @@ function start() {
             console.log("3");
             package.addDeck(deck);
             package.writeToFile(OUTPUT_FILE);
+            document.getElementById("output").innerHTML += "FINISHED";
+            enableButton();
         })
         //.catch((err) => console.log("Error: ", err.message));
 }
@@ -128,6 +119,7 @@ function createCards(package, deck) {
                 .then((card) => {
                     console.log("1");
                     deck.addNote(card);
+                    document.getElementById("output").innerHTML += "DONE " + ID + "<br>"; 
                 })                             // add card to deck
                 //.catch((err) => console.log("Error: ", err.message));
         }
@@ -410,4 +402,16 @@ function getFieldsFromMycoMatch(name, rank) {
         return null;
     }
     return mycomatch[name];
+}
+
+function disableButton() {
+    document.getElementById("startButton").disabled = true;
+    document.getElementById("loader").style.display = 'block';
+}
+
+function enableButton() {
+    setTimeout(function(){ // wait a bit so user is prompted to save before button is activated again
+        document.getElementById("loader").style.display = 'none';
+        document.getElementById("startButton").disabled = false;
+    }, 2000);
 }
