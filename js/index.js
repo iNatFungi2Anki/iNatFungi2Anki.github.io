@@ -71,7 +71,7 @@ const p = new Package()
 
 function start() {
     const input = convertInputToList(document.getElementById(INPUT_ELEMENT_ID).value);
-    verifyInputResult = verifyInput(input);
+    const verifyInputResult = verifyInput(input);
     if (!verifyInputResult.isValid) {
         if (!verifyInputResult.isEmpty) {
             alert(`Bad input '${verifyInputResult.line}' on line ${verifyInputResult.lineNum}`);
@@ -389,7 +389,17 @@ function exportDeck() {
 
 function convertInputToList(input) {
     // Split the input by newline characters to create an array
-    const list = input.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    const list = input.split('\n').map(line => {
+        line = line.trim();
+        // Check if the line matches the pattern of an iNaturalist observation URL
+        const match = line.match(/https:\/\/www\.inaturalist\.org\/observations\/(\d+)$/);
+        if (match) {
+            // If it matches, replace the line with the captured ID
+            return match[1];
+        }
+        return line;
+    }).filter(line => line.length > 0);
+    
     return list;
 }
 
@@ -434,7 +444,6 @@ function verifyInput(input) {
             isEmpty: true
         };
     }
-
     const regex = /^(https:\/\/www\.inaturalist\.org\/observations\/\d+|\d+)$/;
     count = 1;
     for (let line of input) {
