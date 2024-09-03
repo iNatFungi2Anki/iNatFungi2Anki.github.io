@@ -74,7 +74,7 @@ function start() {
     const verifyInputResult = verifyInput(input);
     if (!verifyInputResult.isValid) {
         if (!verifyInputResult.isEmpty) {
-            alert(`Bad input '${verifyInputResult.line}' on line ${verifyInputResult.lineNum}`);
+            alert(`Bad input '${verifyInputResult.line}'`);
         }
         return;
     }
@@ -91,7 +91,10 @@ function start() {
             document.getElementById("output").innerHTML += "FINISHED";
             enableButton();
         })
-        //.catch((err) => console.log("Error: ", err.message));
+        .catch((err) => {
+            console.log("Error: ", err);
+            alert("Error Creating Deck");
+        });
 }
 
 function getMycoMatchData() {
@@ -117,20 +120,23 @@ function createCards(package, deck, input) {
         const model = createModel();
         for (let [index, iNatID] of input.entries()) {
             await fetch("https://api.inaturalist.org/v1/observations/".concat(iNatID))    // make iNat API call
-                .then((response) => response.json())                            // convert response to json 
-                .then((json) => getMedia(json.results[0]))                      // fetch images
-                .then(({json, media}) => {                                      // add images to package and create the card
+                .then((response) => response.json())                                      // convert response to json 
+                .then((json) => getMedia(json.results[0]))                                // fetch images
+                .then(({json, media}) => {                                                // add images to package and create the card
                     for (let [index, image] of media.entries()) {
                         package.addMedia(image.blob, image.imgName);
                     }
                     return createCard(json, media, model);
                 })
-                .then((card) => {
+                .then((card) => {                                                         // add card to deck
                     console.log("1");
                     deck.addNote(card);
-                    document.getElementById("output").innerHTML += "DONE " + iNatID + "<br>"; 
-                })                             // add card to deck
-                //.catch((err) => console.log("Error: ", err.message));
+                    document.getElementById("output").innerHTML += "DONE '" + iNatID + "'<br>"; 
+                })                            
+                .catch((err) => {
+                    console.log(err)
+                    document.getElementById("output").innerHTML += `<div style="color: red;">ERROR: Couldn't create card for '${iNatID}' because '${err.message}'</div>`;
+                });
         }
         //package.addDeck(deck);
         //package.writeToFile('deck.apkg')
@@ -144,7 +150,7 @@ function createCard(json, media, model) {
     // create HTML for taxon photos
     const taxonPhotosHtml = media.map(mediaObj => `<img src="${mediaObj.imgName}">`).join('<br>');
     const scientificName = json.taxon.name;
-    let commonName = UNKNOWN;
+    let commonName = null;
     if ('preferred_common_name' in json.taxon) {
         commonName = json.taxon.preferred_common_name;
     }
@@ -181,20 +187,20 @@ function createCard(json, media, model) {
     }
     let ancestors = familyName + " < " +  orderName + " < " + className + " < " + phylumName;
     
-    let etymology = UNKNOWN;
-    let spores = UNKNOWN;
-    let odour = UNKNOWN;
-    let edibility = UNKNOWN;
-    let taste = UNKNOWN;
-    let habitat = UNKNOWN;
+    let etymology = null;
+    let spores = null;
+    let odour = null;
+    let edibility = null;
+    let taste = null;
+    let habitat = null;
     let mycoMatchFields = getFieldsFromMycoMatch(scientificName, json.taxon.rank);
     if (mycoMatchFields != null) {
-        etymology = mycoMatchFields.nameOrigin;
-        spores = mycoMatchFields.spores;
-        odour = mycoMatchFields.odour;
-        edibility = mycoMatchFields.edibility;
-        taste = mycoMatchFields.taste;
-        habitat = mycoMatchFields.habitat;
+        etymology = returnNullIfUnkownString(mycoMatchFields.nameOrigin);
+        spores = returnNullIfUnkownString(mycoMatchFields.spores);
+        odour = returnNullIfUnkownString(mycoMatchFields.odour);
+        edibility = returnNullIfUnkownString(mycoMatchFields.edibility);
+        taste = returnNullIfUnkownString(mycoMatchFields.taste);
+        habitat = returnNullIfUnkownString(mycoMatchFields.habitat);
     }
 
     const card = model.note([
@@ -245,16 +251,16 @@ function createModel() {
           afmt: `<div align="left" style="font-size: 16px;">
           {{photos}}<br><br>
           {{type:scientificName}}<br><br>
-          <div style="font-size: 30px;"><i>{{scientificName}}</i></div><br><br>
-          <b><p style="display:inline">Common Name: </p></b>{{commonName}}<br><br>
-          <b><p style="display:inline">Etymology: </p></b>{{etymology}}<br><br>
-          <i>{{ancestors}}</i><br><br>
+          <div style="font-size: 30px;"><i>{{scientificName}}</i></div><br>
+          {{#commonName}}<br><b><p style="display:inline">Common Name: </p></b>{{commonName}}<br>{{/commonName}}
+          {{#etymology}}<br><b><p style="display:inline">Etymology: </p></b>{{etymology}}<br>{{/etymology}}
+          <br><i>{{ancestors}}</i><br><br>
           <hr>
-          <br><b><p style="display:inline">Spores: </p></b>{{spores}}
-          <br><br><b><p style="display:inline">Odour: </p></b>{{odour}}
-          <br><br><b><p style="display:inline">Edibility: </p></b>{{edibility}}
-          <br><br><b><p style="display:inline">Taste: </p></b>{{taste}}
-          <br><br><b><p style="display:inline">Habitat: </p></b>{{habitat}}
+          {{#spores}}<br><b><p style="display:inline">Spores: </p></b>{{spores}}<br>{{/spores}}
+          {{#odour}}<br><b><p style="display:inline">Odour: </p></b>{{odour}}<br>{{/odour}}
+          {{#edibility}}<br><b><p style="display:inline">Edibility: </p></b>{{edibility}}<br>{{/edibility}}
+          {{#taste}}<br><b><p style="display:inline">Taste: </p></b>{{taste}}<br>{{/taste}}
+          {{#habitat}}<br><b><p style="display:inline">Habitat: </p></b>{{habitat}}{{/habitat}}
           </div>`,
         },
       ]
@@ -460,4 +466,11 @@ function verifyInput(input) {
     return {
         isValid: true,
     };
+}
+
+function returnNullIfUnkownString(string) {
+    if (string == UNKNOWN) {
+        return null;
+    }
+    return string;
 }
