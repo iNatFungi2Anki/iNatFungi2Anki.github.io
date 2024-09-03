@@ -19,6 +19,12 @@
   <link href="css/extra.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
+
+  <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+  <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/perl/perl.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css"></link>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/abbott.min.css"></link>
 </head>
 
 <body>
@@ -71,7 +77,7 @@
               <div id="add-note">
                 <div>
                   <div style="color: yellow;">Input one URL per line:</div>
-                  <textarea id="noteFront" type="text" placeholder="(e.g. https://www.inaturalist.org/observations/230398888)" required
+                  <textarea id="noteFront" wrap='off' type="text" placeholder="(e.g. 'https://www.inaturalist.org/observations/230398888' or '230398888')" required
                     style="margin: 0px;width: 800px;height: 100px;"></textarea>
                 </div>
               </div>

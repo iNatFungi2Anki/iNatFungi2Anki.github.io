@@ -35,8 +35,9 @@
 
 // The `initSqlJs` function is globally provided by all of the main dist files if loaded in the browser.
 // We must specify this locateFile function if we are loading a wasm file from anywhere other than the current html page's folder.
-const UNKNOWN = "Unknown"
-const OUTPUT_FILE = "output.apkg"
+const UNKNOWN = "Unknown";
+const OUTPUT_FILE = "output.apkg";
+const INPUT_ELEMENT_ID = "noteFront";
 
 var SQL;
 initSqlJs().then(function (sql) {
@@ -69,13 +70,21 @@ const d = new Deck(1347617346765, "New deck")
 const p = new Package()
 
 function start() {
+    const input = convertInputToList(document.getElementById(INPUT_ELEMENT_ID).value);
+    verifyInputResult = verifyInput(input);
+    if (!verifyInputResult.isValid) {
+        if (!verifyInputResult.isEmpty) {
+            alert(`Bad input '${verifyInputResult.line}' on line ${verifyInputResult.lineNum}`);
+        }
+        return;
+    }
     disableButton();
     document.getElementById("output").innerHTML = "";
     let package = new Package(); 
     let deck = new Deck(generateRandom13DigitNumber(), "Fungi");
     getMycoMatchData()
-        .then(() => createCards(package, deck))
-        .then(() => {
+        .then(() => createCards(package, deck, input))
+        .then(async () => {
             console.log("3");
             package.addDeck(deck);
             package.writeToFile(OUTPUT_FILE);
@@ -100,14 +109,14 @@ function getMycoMatchData() {
     });
 }
 
-function createCards(package, deck) {
+function createCards(package, deck, input) {
     return new Promise(async (resolve) => {
         //const deck = new Deck(generateRandom13DigitNumber(), "Fungi");
         //const package = new Package();
-        const iNatIDs = convertInputToList(document.getElementById("noteFront").value);
+        //const iNatIDs = convertInputToList(document.getElementById(INPUT_ELEMENT_ID).value);
         const model = createModel();
-        for (let [index, ID] of iNatIDs.entries()) {
-            await fetch("https://api.inaturalist.org/v1/observations/".concat(ID))    // make iNat API call
+        for (let [index, iNatID] of input.entries()) {
+            await fetch("https://api.inaturalist.org/v1/observations/".concat(iNatID))    // make iNat API call
                 .then((response) => response.json())                            // convert response to json 
                 .then((json) => getMedia(json.results[0]))                      // fetch images
                 .then(({json, media}) => {                                      // add images to package and create the card
@@ -119,7 +128,7 @@ function createCards(package, deck) {
                 .then((card) => {
                     console.log("1");
                     deck.addNote(card);
-                    document.getElementById("output").innerHTML += "DONE " + ID + "<br>"; 
+                    document.getElementById("output").innerHTML += "DONE " + iNatID + "<br>"; 
                 })                             // add card to deck
                 //.catch((err) => console.log("Error: ", err.message));
         }
@@ -413,5 +422,33 @@ function enableButton() {
     setTimeout(function(){ // wait a bit so user is prompted to save before button is activated again
         document.getElementById("loader").style.display = 'none';
         document.getElementById("startButton").disabled = false;
-    }, 2000);
+    }, 4000);
+}
+
+function verifyInput(input) {
+    if (input.length == 0){
+        return {
+            isValid: false,
+            lineNum: null,
+            line: null,
+            isEmpty: true
+        };
+    }
+
+    const regex = /^(https:\/\/www\.inaturalist\.org\/observations\/\d+|\d+)$/;
+    count = 1;
+    for (let line of input) {
+        if (!regex.test(line)) {
+            return {
+                isValid: false,
+                lineNum: count,
+                line: line,
+                isEmpty: false
+            };
+        }
+        count += 1;
+    }
+    return {
+        isValid: true,
+    };
 }
