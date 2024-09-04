@@ -426,6 +426,9 @@ function getFieldsFromMycoMatch(name, rank) {
     if (rank != "species" || !(name in mycomatch)) {
         return null;
     }
+    if ('synonymOf' in mycomatch[name]) {
+        return mycomatch[mycomatch[name].synonymOf];
+    }
     return mycomatch[name];
 }
 
