@@ -63,7 +63,7 @@
     <div class="container" style="color: aliceblue;">
       <div class="row">
         <div class="col-md-12">
-          <div class="col-md-9" id="main">
+          <div class="col-md-12" id="main">
             <div id="home-content">
               <h3><strong>iNatFungi2Anki 🍄 </strong></h3>
               <div>
@@ -88,13 +88,43 @@
               <div id="output" style="font-family: 'Courier New'; color:rgb(10, 225, 78)"></div>
             </div>
 
-            <div id="about-content" style="display:none;">
-              <h1>About iNatFungi2Anki</h1>
-              <p>This application helps you convert iNaturalist fungi observations into <a href="https://en.wikipedia.org/wiki/Anki_(software)">Anki</a> cards.</p>
-              <!-- Add more about information here -->
+            <div id="about-content" style="display:none; width: 80%; text-align:justify;" class="mx-auto">
+              <h3><strong>About iNatFungi2Anki</strong></h3>
+              
+              <p class="justify-content-center"> 
+                This tool is designed to help mycologists seamlessly convert their iNaturalist fungi observations into Anki flashcards. Whether you're a budding forager or a taxonomy expert, iNatFungi2Anki offers a simple way to integrate your field observations into your study routine.</p>
+              
+              <h4><strong>How It Works:</strong></h4>
+              <ol>
+                <li><strong>Input Your Observations:</strong> Simply paste the URLs of your iNaturalist fungi observations into the input box.</li>
+                <li><strong>Generate Flashcards:</strong> The tool will automatically fetch the relevant details from your observations and convert them into Anki flashcards.</li>
+                <li><strong>Learn and Review:</strong> Download your flashcards and import them into Anki to start learning!</li>
+              </ol>
+
+              <h4><strong>Sample Flashcard:</strong></h4>
+
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6">
+                    <img src="resources/sample1.png" class="img-fluid" alt="Image 1">
+                  </div>
+                  <div class="col-md-6">
+                    <img src="resources/sample2.png" class="img-fluid" alt="Image 2">
+                  </div>
+                </div>
+              </div>
+
+              <h4><strong>Resouces Used:</strong></h4>
+              <ul>
+                <li><a href="https://www.mycomatch.com/">MycoMatch:</a> Created by Ian Gibson, iNatFungi2Anki pulls data from this software to create rich and detailed flashcards.</li>
+                <li><a href="https://github.com/krmanik/genanki-js">genanki-js:</a> Javascript library used to generate Anki cards.</li>
+                <li><a href="https://api.inaturalist.org/v1/docs/">iNaturalist API:</a> Used to fetch observatoin data from iNat.</li>
+              </ul>  
+
+              <h4><strong>Contact:</strong></h4>
+              <p class="justify-content-center"> jaredbance@gmail.com</p>
             </div>
           </div>
-        </div>
       </div>
     </div>
 
