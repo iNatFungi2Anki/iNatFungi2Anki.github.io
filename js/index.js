@@ -24,11 +24,15 @@ function start() {
     let deck = new Deck(generateRandom13DigitNumber(), "Fungi");
     getMycoMatchData()
         .then(() => createCards(package, deck, input))
-        .then(async () => {
-            package.addDeck(deck);
-            package.writeToFile(OUTPUT_FILE);
+        .then(async (numberOfCards) => {
+            if (numberOfCards > 0) {
+                package.addDeck(deck);
+                package.writeToFile(OUTPUT_FILE);
+                enableButton(true);
+            } else {
+                enableButton(false);
+            }
             document.getElementById("output").innerHTML += "FINISHED";
-            enableButton();
         })
         .catch((err) => {
             console.log("Error: ", err);
@@ -54,11 +58,15 @@ function getMycoMatchData() {
 function createCards(package, deck, input) {
     return new Promise(async (resolve) => {
         const model = createModel();
+        var cardCounter = 0;
         for (let [index, iNatID] of input.entries()) {
             await fetch("https://api.inaturalist.org/v1/observations/".concat(iNatID))    // make iNat API call
                 .then((response) => response.json())                                      // convert response to json 
                 .then((json) => getMedia(json.results[0]))                                // fetch images
-                .then(({json, media}) => {                                                // add images to package and create the card
+                .then(({json, media, errMsg}) => {                                        // add images to package and create the card
+                    if (errMsg != null) {
+                        throw new Error(errMsg);
+                    }
                     for (let [index, image] of media.entries()) {
                         package.addMedia(image.blob, image.imgName);
                     }
@@ -66,6 +74,7 @@ function createCards(package, deck, input) {
                 })
                 .then((card) => {                                                         // add card to deck
                     deck.addNote(card);
+                    cardCounter += 1;
                     document.getElementById("output").innerHTML += "DONE '" + iNatID + "'<br>"; 
                 })                            
                 .catch((err) => {
@@ -73,7 +82,7 @@ function createCards(package, deck, input) {
                     document.getElementById("output").innerHTML += `<div style="color: red;">ERROR: Couldn't create card for '${iNatID}' because '${err.message}'</div>`;
                 });
         }
-        resolve();
+        resolve(cardCounter);
     });
 }
 
@@ -202,6 +211,7 @@ function getMedia(json) {
         const id = json.id;
         let i = 0;
         let media = [];
+        var errMsg = null;
 
         for (let [index, observation_photo] of observation_photos.entries()) { 
             const squareImgUrl = observation_photo.photo.url;
@@ -216,14 +226,18 @@ function getMedia(json) {
                     })
                 })
                 .catch(error => {
-                    console.error('Error downloading the image:', error);
+                    console.error('Error downloading image:', error);
+                    errMsg = error.message;
                 });
             i = i + 1;
+            if (errMsg != null) {
+                break;
+            }
         }
-
         resolve({
             json: json,
-            media: media
+            media: media,
+            errMsg: errMsg
         })
     });
 }
@@ -272,11 +286,19 @@ function disableButton() {
     document.getElementById("loader").style.display = 'block';
 }
 
-function enableButton() {
-    setTimeout(function(){ // wait a bit so user is prompted to save before button is activated again
-        document.getElementById("loader").style.display = 'none';
-        document.getElementById("startButton").disabled = false;
-    }, 4000);
+function enableButton(addDelay) {
+    if (addDelay) {
+        setTimeout(function(){ // wait a bit so user is prompted to save before button is activated again
+            enableButtonUtil();
+        }, 4000);
+    } else {
+        enableButtonUtil();
+    }
+}
+
+function enableButtonUtil() {
+    document.getElementById("loader").style.display = 'none';
+    document.getElementById("startButton").disabled = false;
 }
 
 function verifyInput(input) {
