@@ -10,12 +10,11 @@ initSqlJs().then(function (sql) {
 var mycomatch; // data pulled from mycomatch
 
 function start() {
-    const input = convertInputToList(document.getElementById(INPUT_ELEMENT_ID).value);
-    const verifyInputResult = verifyInput(input);
-    if (!verifyInputResult.isValid) {
-        if (!verifyInputResult.isEmpty) {
-            alert(`Bad input '${verifyInputResult.line}'`);
-        }
+    let input;
+    try{
+        input = convertInputToList(document.getElementById(INPUT_ELEMENT_ID).value);
+    } catch (err) {
+        alert(`Bad input '${err.message}'`);
         return;
     }
     disableButton();
@@ -246,13 +245,17 @@ function convertInputToList(input) {
     // Split the input by newline characters to create an array
     const list = input.split('\n').map(line => {
         line = line.trim();
-        // Check if the line matches the pattern of an iNaturalist observation URL
-        const match = line.match(/https:\/\/www\.inaturalist\.org\/observations\/(\d+)$/);
+        const match = line.match(/(?:inaturalist.*observations\/)?(\d+)$/);
         if (match) {
             // If it matches, replace the line with the captured ID
             return match[1];
+        } else {
+            if (line == "") {
+                return line;
+            } else {
+                throw new Error(line);
+            }
         }
-        return line;
     }).filter(line => line.length > 0);
     
     return list;
@@ -301,6 +304,7 @@ function enableButtonUtil() {
     document.getElementById("startButton").disabled = false;
 }
 
+// TODO: Delete this method
 function verifyInput(input) {
     if (input.length == 0){
         return {
