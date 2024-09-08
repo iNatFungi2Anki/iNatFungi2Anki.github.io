@@ -13,6 +13,13 @@ th {
     width: 80%;
 }
 
+.hyphenize {
+    hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+}
+
 @media (max-width: 767px) {
     .customNavbar {
         width: 100% !important;
