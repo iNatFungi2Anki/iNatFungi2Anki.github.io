@@ -18,7 +18,7 @@ function start() {
         return;
     }
     disableButton();
-    document.getElementById("output").innerHTML = "";
+    document.getElementById("output").innerHTML = "STARTING... <br>"; 
     let package = new Package(); 
     let deck = new Deck(generateRandom13DigitNumber(), "Fungi");
     getMycoMatchData()
@@ -35,7 +35,7 @@ function start() {
         })
         .catch((err) => {
             console.log("Error: ", err);
-            alert("Error Creating Deck");
+            alert(`Error Creating Deck: ${err.message}`);
         });
 }
 
@@ -47,7 +47,7 @@ function getMycoMatchData() {
                     .then((json) => {
                         mycomatch = json;
                         resolve(mycomatch);
-            });
+                    });
         } else {
             resolve();
         }
