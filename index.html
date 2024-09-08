@@ -44,19 +44,24 @@
       <div class="container">
         <a class="navbar-brand" href=".">iNatFungi2Anki</a>
 
-        <!-- Expanded navigation -->
-        <!-- <div id="navbar-collapse" class="navbar-collapse collapse"> -->
-        <!-- Main navigation -->
-        <ul class="nav navbar-nav mr-auto">
-          <li class="nav-item">
-            <a href="#" id="home-link" class="nav-link active" aria-current="page">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" id="about-link" class="nav-link">About</a>
-          </li>
-        </ul>
+        <!-- Expander button -->
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <!-- </div> -->
+        <!-- Expanded navigation -->
+        <div id="navbar-collapse" class="navbar-collapse collapse">
+          <!-- Main navigation -->
+          <ul class="nav navbar-nav mr-auto">
+            <li class="nav-item">
+              <a href="#" id="home-link" class="nav-link active" aria-current="page">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" id="about-link" class="nav-link">About</a>
+            </li>
+          </ul>
+
+        </div>
       </div>
     </div>
 
@@ -73,8 +78,8 @@
               <div id="add-note">
                 <div>
                   <div style="color: yellow;">Input one URL per line:</div>
-                  <textarea id="noteFront" wrap='off' type="text" placeholder="(e.g. 'https://www.inaturalist.org/observations/230398888' or '230398888')" required
-                    style="margin: 0px;width: 800px;height: 100px;"></textarea>
+                  <textarea id="noteFront" type="text" placeholder="(e.g. 'https://www.inaturalist.org/observations/230398888' or '230398888')" required
+                    style="margin: 0px; width: 100%; height: 100px;"></textarea>
                 </div>
               </div>
 
@@ -88,7 +93,7 @@
               <div id="output" style="font-family: 'Courier New'; color:rgb(10, 225, 78)"></div>
             </div>
 
-            <div id="about-content" style="display:none; width: 80%; text-align:justify;" class="mx-auto">
+            <div id="about-content" style="display:none; text-align:justify;" class="mx-auto customNavbar">
               <h3><strong>About iNatFungi2Anki</strong></h3>
               
               <p class="justify-content-center"> 
@@ -142,6 +147,16 @@
         document.getElementById('about-content').style.display = 'block';
         this.classList.add('active');
         document.getElementById('home-link').classList.remove('active');
+      });
+
+      const navbarToggler = document.querySelector('.navbar-toggler');
+      const navbarCollapse = document.getElementById('navbar-collapse');
+      navbarToggler.addEventListener('click', function () {
+        if (navbarCollapse.classList.contains('show')) {
+          navbarCollapse.classList.remove('show'); 
+        } else {
+          navbarCollapse.classList.add('show'); 
+        }
       });
     </script>
 

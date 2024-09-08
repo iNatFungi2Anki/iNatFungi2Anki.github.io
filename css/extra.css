@@ -8,6 +8,17 @@ th {
     font-size: 13pt;
     text-decoration: underline;
 }
+
+.customNavbar {
+    width: 80%;
+}
+
+@media (max-width: 767px) {
+    .customNavbar {
+        width: 100% !important;
+    }
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
     width: 50px;
