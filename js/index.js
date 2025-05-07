@@ -186,9 +186,9 @@ function createModel() {
           {{type:scientificName}}
           </div>`,
           afmt: `<div align="left" style="font-size: 16px;">
-          {{photos}}<br><br>
           {{type:scientificName}}<br><br>
-          <div style="font-size: 30px;"><i>{{scientificName}}</i></div><br>
+          <div style="font-size: 30px;"><i>{{scientificName}}</i></div><br><br>
+          {{photos}}<br><br>
           {{#commonName}}<br><b><p style="display:inline">Common Name: </p></b>{{commonName}}<br>{{/commonName}}
           {{#etymology}}<br><b><p style="display:inline">Etymology: </p></b>{{etymology}}<br>{{/etymology}}
           <br><i>{{ancestors}}</i><br><br>
@@ -216,7 +216,7 @@ function getMedia(json) {
             const squareImgUrl = observation_photo.photo.url;
             const imgUrl = squareImgUrl.replace('square', 'original');
             const imgName = `observation_${id}_${i}_${getBasename(imgUrl)}`;
-            await fetch('https://corsproxy.io/?'.concat(imgUrl))
+            await fetch('https://corsproxy.io/?url='.concat(imgUrl))
                 .then(response => response.blob())  // Convert the response to a Blob
                 .then(blob => {
                     media.push({
