@@ -216,7 +216,8 @@ function getMedia(json) {
             const squareImgUrl = observation_photo.photo.url;
             const imgUrl = squareImgUrl.replace('square', 'original');
             const imgName = `observation_${id}_${i}_${getBasename(imgUrl)}`;
-            await fetch('https://corsproxy.io/?url='.concat(imgUrl))
+            // await fetch('https://corsproxy.io/?url='.concat(imgUrl))
+            await fetch(imgUrl)
                 .then(response => response.blob())  // Convert the response to a Blob
                 .then(blob => {
                     media.push({
